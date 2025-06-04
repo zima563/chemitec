@@ -59,9 +59,19 @@ model Industry {
   id          Int       @id @default(autoincrement())
   name        String
   description String?
+  image       String?
   products    Product[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+}
+
+model Certificate {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  image       String? // صورة الشهادة
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 enum Role {

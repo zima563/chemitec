@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateBrandDto } from '../../common/dto/create-brand.dto';
 import { UpdateBrandDto } from '../../common/dto/update-brand.dto';
+import * as fs from 'fs';
 
 @Injectable()
 export class BrandsService {
@@ -27,7 +28,22 @@ export class BrandsService {
   }
 
   async update(id: number, updateBrandDto: UpdateBrandDto) {
-    await this.findOne(id); // For 404 check
+    let brand = await this.findOne(id); // For 404 check
+    if (brand.logo && updateBrandDto.logo === undefined) {
+      // If logo is not provided in update, keep the existing one
+      updateBrandDto.logo = brand.logo;
+    } else if (updateBrandDto.logo === null) {
+      // If logo is explicitly set to null, remove it
+      updateBrandDto.logo = undefined;
+    }
+
+    if (updateBrandDto.logo) {
+      // Delete the old logo if it exists
+      if (brand.logo && brand.logo.startsWith('/uploads/brands/')) {
+        const path = '.' + brand.logo;
+        if (fs.existsSync(path)) fs.unlinkSync(path);
+      }
+    }
     return this.prisma.brand.update({
       where: { id },
       data: updateBrandDto,
