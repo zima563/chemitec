@@ -84,6 +84,16 @@ model TeamMember {
   updatedAt DateTime @updatedAt
 }
 
+model ContactUs {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String
+  phone     String?
+  message   String
+  createdAt DateTime @default(now())
+}
+
 enum Role {
   user
   admin

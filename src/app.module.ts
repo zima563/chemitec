@@ -9,6 +9,7 @@ import { BrandsModule } from './modules/brands/brands.module';
 import { IndustriesModule } from './modules/industries/industries.module';
 import { CertificatesModule } from './modules/certificates/certificates.module';
 import { TeamModule } from './modules/team/team.module';
+import { ContactUsModule } from './modules/contact-us/contact-us.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TeamModule } from './modules/team/team.module';
     IndustriesModule,
     CertificatesModule,
     TeamModule,
+    ContactUsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
