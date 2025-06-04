@@ -8,6 +8,7 @@ import {
   Param,
   UploadedFiles,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -15,6 +16,10 @@ import { extname } from 'path';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from '../../common/dto/create-product.dto';
 import { UpdateProductDto } from '../../common/dto/update-product.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { Role } from 'src/auth/roles.enum';
 
 function generateFileName(file: Express.Multer.File) {
   const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -26,6 +31,8 @@ export class ProductsController {
   constructor(private readonly productService: ProductsService) {}
 
   @Post()
+  @Roles(Role.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -53,6 +60,8 @@ export class ProductsController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @UseInterceptors(
     FileFieldsInterceptor(
       [
@@ -81,6 +90,8 @@ export class ProductsController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);
   }
