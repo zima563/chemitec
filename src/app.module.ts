@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { BrandsModule } from './modules/brands/brands.module';
 import { IndustriesModule } from './modules/industries/industries.module';
 import { CertificatesModule } from './modules/certificates/certificates.module';
+import { TeamModule } from './modules/team/team.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CertificatesModule } from './modules/certificates/certificates.module';
     BrandsModule,
     IndustriesModule,
     CertificatesModule,
+    TeamModule,
   ],
   controllers: [AppController],
   providers: [AppService],

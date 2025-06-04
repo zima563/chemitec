@@ -74,6 +74,16 @@ model Certificate {
   updatedAt   DateTime @updatedAt
 }
 
+model TeamMember {
+  id        Int      @id @default(autoincrement())
+  name      String
+  position  String
+  bio       String?
+  image     String? // صورة العضو
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum Role {
   user
   admin
