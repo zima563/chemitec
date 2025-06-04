@@ -1,25 +1,44 @@
-import { Type } from 'class-transformer';
-import { IsNotEmpty, IsOptional, IsString, IsNumber } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+  IsNumber,
+  IsEnum,
+  IsArray,
+  ArrayMinSize,
+} from 'class-validator';
+
+export enum ProductTypeEnum {
+  BtoB = 'BtoB',
+  BtoC = 'BtoC',
+}
 
 export class CreateProductDto {
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
+  @MaxLength(200)
   name: string;
 
   @IsOptional()
   @IsString()
+  @MaxLength(1000)
   description?: string;
 
-  @IsNotEmpty()
   @IsNumber()
-  @Type(() => Number)
   price: number;
 
+  @IsEnum(ProductTypeEnum)
+  type: ProductTypeEnum;
+
   @IsOptional()
-  @IsNumber()
   brandId?: number;
 
   @IsOptional()
-  @IsNumber()
   industryId?: number;
+
+  // الصور الإضافية كـ array من الستركتشر
+  @IsOptional()
+  @IsArray()
+  images?: { url: string }[];
 }

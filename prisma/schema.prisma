@@ -30,6 +30,7 @@ model Product {
   price       Float
   image       String? // cover image
   images      ProductImage[] // additional images
+  type        ProductType
   brand       Brand?         @relation(fields: [brandId], references: [id])
   brandId     Int?
   industry    Industry?      @relation(fields: [industryId], references: [id])
@@ -43,6 +44,11 @@ model ProductImage {
   url       String
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+}
+
+enum ProductType {
+  BtoB
+  BtoC
 }
 
 model Brand {
