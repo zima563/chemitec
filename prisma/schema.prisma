@@ -100,6 +100,24 @@ model ContactUs {
   createdAt DateTime @default(now())
 }
 
+model SuccessfulProduct {
+  id          Int                    @id @default(autoincrement())
+  title       String
+  description String?
+  image       String?                // cover image
+  images      SuccessfulProductImage[]
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+}
+
+model SuccessfulProductImage {
+  id        Int               @id @default(autoincrement())
+  url       String
+  successfulProduct   SuccessfulProduct @relation(fields: [successfulProductId], references: [id], onDelete: Cascade)
+  successfulProductId Int
+}
+
+
 enum Role {
   user
   admin
