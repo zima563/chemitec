@@ -12,34 +12,54 @@ import {
   UploadedFile,
   ForbiddenException,
 } from '@nestjs/common';
+
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from '../../common/dto/create-brand.dto';
 import { UpdateBrandDto } from '../../common/dto/update-brand.dto';
+
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/roles.enum';
-import { extname } from 'path';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 
-const editFileName = (req, file, callback) => {
-  const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-  callback(null, uniqueSuffix + extname(file.originalname));
-};
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+} from '@nestjs/swagger';
 
+@ApiTags('Brands')
 @Controller('brands')
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
   @Post()
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Create a new brand',
+    type: CreateBrandDto,
+  })
+  @ApiOperation({ summary: 'Create brand' })
+  @ApiResponse({ status: 201, description: 'Brand created successfully' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(
     FileInterceptor('logo', {
       storage: diskStorage({
         destination: './uploads/brands',
-        filename: editFileName,
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, uniqueSuffix + extname(file.originalname));
+        },
       }),
       fileFilter: (req, file, cb) => {
         if (!file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
@@ -48,7 +68,7 @@ export class BrandsController {
           cb(null, true);
         }
       },
-      limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+      limits: { fileSize: 2 * 1024 * 1024 },
     }),
   )
   create(
@@ -63,23 +83,40 @@ export class BrandsController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all brands' })
+  @ApiResponse({ status: 200, description: 'Array of brands' })
   findAll() {
     return this.brandsService.findAll();
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', type: Number })
+  @ApiOperation({ summary: 'Get brand by id' })
+  @ApiResponse({ status: 200, description: 'Brand found' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.brandsService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Update a brand',
+    type: UpdateBrandDto,
+  })
+  @ApiOperation({ summary: 'Update brand' })
+  @ApiResponse({ status: 200, description: 'Brand updated successfully' })
+  @ApiParam({ name: 'id', type: Number })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(
     FileInterceptor('logo', {
       storage: diskStorage({
         destination: './uploads/brands',
-        filename: editFileName,
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, uniqueSuffix + extname(file.originalname));
+        },
       }),
       fileFilter: (req, file, cb) => {
         if (!file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
@@ -88,7 +125,7 @@ export class BrandsController {
           cb(null, true);
         }
       },
-      limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+      limits: { fileSize: 2 * 1024 * 1024 },
     }),
   )
   update(
@@ -104,6 +141,10 @@ export class BrandsController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @ApiParam({ name: 'id', type: Number })
+  @ApiOperation({ summary: 'Delete brand' })
+  @ApiResponse({ status: 200, description: 'Brand deleted successfully' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   remove(@Param('id', ParseIntPipe) id: number) {

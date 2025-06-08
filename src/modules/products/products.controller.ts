@@ -21,16 +21,35 @@ import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/roles.enum';
 
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+} from '@nestjs/swagger';
+
 function generateFileName(file: Express.Multer.File) {
   const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9);
   return uniqueName + extname(file.originalname);
 }
 
+@ApiTags('Products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productService: ProductsService) {}
 
   @Post()
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Create a new product (cover image & additional images)',
+    type: CreateProductDto,
+  })
+  @ApiOperation({ summary: 'Create product' })
+  @ApiResponse({ status: 201, description: 'Product created successfully' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(
@@ -60,6 +79,15 @@ export class ProductsController {
   }
 
   @Put(':id')
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Update a product (cover image & additional images)',
+    type: UpdateProductDto,
+  })
+  @ApiOperation({ summary: 'Update product' })
+  @ApiResponse({ status: 200, description: 'Product updated successfully' })
+  @ApiParam({ name: 'id', type: Number })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(
@@ -90,6 +118,10 @@ export class ProductsController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @ApiParam({ name: 'id', type: Number })
+  @ApiOperation({ summary: 'Delete product' })
+  @ApiResponse({ status: 200, description: 'Product deleted successfully' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   remove(@Param('id') id: string) {
@@ -97,11 +129,16 @@ export class ProductsController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all products' })
+  @ApiResponse({ status: 200, description: 'Array of products' })
   findAll() {
     return this.productService.findAll();
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', type: Number })
+  @ApiOperation({ summary: 'Get product by id' })
+  @ApiResponse({ status: 200, description: 'Product found' })
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
   }

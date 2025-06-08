@@ -23,6 +23,16 @@ import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/roles.enum';
 
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+} from '@nestjs/swagger';
+
 const editFileName = (req, file, callback) => {
   const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
   callback(null, uniqueSuffix + extname(file.originalname));
@@ -36,11 +46,20 @@ const imageFileFilter = (req, file, cb) => {
   }
 };
 
+@ApiTags('Industries')
 @Controller('industries')
 export class IndustriesController {
   constructor(private readonly industriesService: IndustriesService) {}
 
   @Post()
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Create a new industry',
+    type: CreateIndustryDto,
+  })
+  @ApiOperation({ summary: 'Create industry' })
+  @ApiResponse({ status: 201, description: 'Industry created successfully' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(
@@ -65,6 +84,15 @@ export class IndustriesController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Update an industry',
+    type: UpdateIndustryDto,
+  })
+  @ApiOperation({ summary: 'Update industry' })
+  @ApiResponse({ status: 200, description: 'Industry updated successfully' })
+  @ApiParam({ name: 'id', type: Number })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(
@@ -90,16 +118,25 @@ export class IndustriesController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all industries' })
+  @ApiResponse({ status: 200, description: 'Array of industries' })
   findAll() {
     return this.industriesService.findAll();
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', type: Number })
+  @ApiOperation({ summary: 'Get industry by id' })
+  @ApiResponse({ status: 200, description: 'Industry found' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.industriesService.findOne(id);
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @ApiParam({ name: 'id', type: Number })
+  @ApiOperation({ summary: 'Delete industry' })
+  @ApiResponse({ status: 200, description: 'Industry deleted successfully' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   remove(@Param('id', ParseIntPipe) id: number) {

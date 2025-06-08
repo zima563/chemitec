@@ -15,13 +15,25 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+
 import { CertificatesService } from './certificates.service';
 import { CreateCertificateDto } from '../../common/dto/create-certificate.dto';
 import { UpdateCertificateDto } from '../../common/dto/update-certificate.dto';
+
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/roles.enum';
+
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+} from '@nestjs/swagger';
 
 const editFileName = (req, file, callback) => {
   const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -36,11 +48,20 @@ const imageFileFilter = (req, file, cb) => {
   }
 };
 
+@ApiTags('Certificates')
 @Controller('certificates')
 export class CertificatesController {
   constructor(private readonly certificatesService: CertificatesService) {}
 
   @Post()
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Create a new certificate',
+    type: CreateCertificateDto,
+  })
+  @ApiOperation({ summary: 'Create certificate' })
+  @ApiResponse({ status: 201, description: 'Certificate created successfully' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(
@@ -67,6 +88,15 @@ export class CertificatesController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Update a certificate',
+    type: UpdateCertificateDto,
+  })
+  @ApiOperation({ summary: 'Update certificate' })
+  @ApiResponse({ status: 200, description: 'Certificate updated successfully' })
+  @ApiParam({ name: 'id', type: Number })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(
@@ -94,16 +124,25 @@ export class CertificatesController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all certificates' })
+  @ApiResponse({ status: 200, description: 'Array of certificates' })
   findAll() {
     return this.certificatesService.findAll();
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', type: Number })
+  @ApiOperation({ summary: 'Get certificate by id' })
+  @ApiResponse({ status: 200, description: 'Certificate found' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.certificatesService.findOne(id);
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @ApiParam({ name: 'id', type: Number })
+  @ApiOperation({ summary: 'Delete certificate' })
+  @ApiResponse({ status: 200, description: 'Certificate deleted successfully' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   remove(@Param('id', ParseIntPipe) id: number) {

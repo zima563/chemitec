@@ -23,16 +23,36 @@ import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/auth/roles.enum';
 
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiQuery,
+} from '@nestjs/swagger';
+
 function generateFileName(file: Express.Multer.File) {
   const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9);
   return uniqueName + extname(file.originalname);
 }
 
+@ApiTags('Successful Products')
 @Controller('successful-products')
 export class SuccessfulProductsController {
   constructor(private readonly service: SuccessfulProductsService) {}
 
   @Post()
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Create a new successful product (cover image & images)',
+    type: CreateSuccessfulProductDto,
+  })
+  @ApiOperation({ summary: 'Create successful product' })
+  @ApiResponse({ status: 201, description: 'Successful product created' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(
@@ -64,6 +84,15 @@ export class SuccessfulProductsController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Update a successful product (cover image & images)',
+    type: UpdateSuccessfulProductDto,
+  })
+  @ApiOperation({ summary: 'Update successful product' })
+  @ApiResponse({ status: 200, description: 'Successful product updated' })
+  @ApiParam({ name: 'id', type: Number })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @UseInterceptors(
@@ -96,6 +125,10 @@ export class SuccessfulProductsController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @ApiParam({ name: 'id', type: Number })
+  @ApiOperation({ summary: 'Delete successful product' })
+  @ApiResponse({ status: 200, description: 'Product deleted' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
   remove(@Param('id', ParseIntPipe) id: number) {
@@ -103,11 +136,19 @@ export class SuccessfulProductsController {
   }
 
   @Get()
-  findAll(@Query() query: any){
+  @ApiOperation({ summary: 'Get all successful products' })
+  @ApiResponse({ status: 200, description: 'Array of successful products' })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'pageSize', required: false, type: Number })
+  @ApiQuery({ name: 'search', required: false, type: String })
+  findAll(@Query() query: any) {
     return this.service.findAll(query);
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', type: Number })
+  @ApiOperation({ summary: 'Get successful product by id' })
+  @ApiResponse({ status: 200, description: 'Successful product found' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.service.findOne(id);
   }
