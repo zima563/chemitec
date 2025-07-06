@@ -8,6 +8,7 @@ import {
   IsArray,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export enum ProductTypeEnum {
   BtoB = 'BtoB',
@@ -43,6 +44,7 @@ export class CreateProductDto {
     description: 'سعر المنتج',
   })
   @IsNumber()
+  @Type(() => Number)
   price: number;
 
   @ApiProperty({
@@ -59,6 +61,7 @@ export class CreateProductDto {
     description: 'ID البراند (اختياري)',
   })
   @IsOptional()
+  @Type(() => Number)
   brandId?: number;
 
   @ApiPropertyOptional({
@@ -67,6 +70,7 @@ export class CreateProductDto {
     description: 'ID الصناعة (اختياري)',
   })
   @IsOptional()
+  @Type(() => Number)
   industryId?: number;
 
   @ApiPropertyOptional({
