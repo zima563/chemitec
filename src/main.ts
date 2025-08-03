@@ -27,7 +27,7 @@ async function bootstrap() {
     .build();
 
   app.enableCors({
-    origin: '*', // أو حط الدومين/الدومينات المطلوبة
+    origin: '*', // أو ضيف الدومينز المطلوبة
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: [
