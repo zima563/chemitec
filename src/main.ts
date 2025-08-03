@@ -27,15 +27,7 @@ async function bootstrap() {
     .build();
 
   app.enableCors({
-    origin: [
-      'http://localhost:5174',
-      'http://127.0.0.1:5174',
-      'http://localhost:5173',
-      'http://127.0.0.1:5173',
-      'http://localhost:3000',
-      'http://127.0.0.1:3000',
-      'https://your-frontend-domain.com', // ضيف هنا الدومين الفعلي لو عندك
-    ],
+    origin: '*', // أو حط الدومين/الدومينات المطلوبة
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: [
@@ -46,6 +38,7 @@ async function bootstrap() {
       'Authorization',
     ],
   });
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
