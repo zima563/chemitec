@@ -27,8 +27,22 @@ async function bootstrap() {
     .build();
 
   app.enableCors({
-    origin: ['http://localhost:5173', 'https://chemitic.surgi-web.com'], // أو '*'
+    origin: [
+      'http://localhost:5174',
+      'http://127.0.0.1:5174',
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+      'https://your-frontend-domain.com', // ضيف هنا الدومين الفعلي لو عندك
+    ],
     credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: [
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+      'Authorization',
+    ],
   });
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
