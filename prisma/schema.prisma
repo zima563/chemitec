@@ -51,6 +51,15 @@ enum ProductType {
   BtoC
 }
 
+model LandingImage {
+  id        Int      @id @default(autoincrement())
+  url       String // الصورة (المسار)
+  alt       String? // النص البديل
+  order     Int? // ترتيب العرض
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Brand {
   id          Int       @id @default(autoincrement())
   name        String
@@ -101,22 +110,21 @@ model ContactUs {
 }
 
 model SuccessfulProduct {
-  id          Int                    @id @default(autoincrement())
+  id          Int                      @id @default(autoincrement())
   title       String
   description String?
-  image       String?                // cover image
+  image       String? // cover image
   images      SuccessfulProductImage[]
-  createdAt   DateTime               @default(now())
-  updatedAt   DateTime               @updatedAt
+  createdAt   DateTime                 @default(now())
+  updatedAt   DateTime                 @updatedAt
 }
 
 model SuccessfulProductImage {
-  id        Int               @id @default(autoincrement())
-  url       String
+  id                  Int               @id @default(autoincrement())
+  url                 String
   successfulProduct   SuccessfulProduct @relation(fields: [successfulProductId], references: [id], onDelete: Cascade)
   successfulProductId Int
 }
-
 
 enum Role {
   user

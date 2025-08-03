@@ -11,6 +11,7 @@ import { CertificatesModule } from './modules/certificates/certificates.module';
 import { TeamModule } from './modules/team/team.module';
 import { ContactUsModule } from './modules/contact-us/contact-us.module';
 import { SuccessfulProductsModule } from './modules/successful-products/successful-products.module';
+import { LandingImagesModule } from './modules/landing-images/landing-images.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { SuccessfulProductsModule } from './modules/successful-products/successf
     TeamModule,
     ContactUsModule,
     SuccessfulProductsModule,
+    LandingImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
