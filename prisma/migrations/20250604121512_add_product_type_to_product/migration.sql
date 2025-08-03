@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE `product` ADD COLUMN `type` ENUM('BtoB', 'BtoC') NOT NULL;
+ALTER TABLE `Product` ADD COLUMN `type` ENUM('BtoB', 'BtoC') NOT NULL;
