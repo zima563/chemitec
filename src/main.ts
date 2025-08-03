@@ -23,9 +23,13 @@ async function bootstrap() {
     .setTitle('Chemitec API')
     .setDescription('API documentation for your platform')
     .setVersion('1.0')
-    .addBearerAuth() 
+    .addBearerAuth()
     .build();
 
+  app.enableCors({
+    origin: ['http://localhost:5173', 'https://chemitic.surgi-web.com'], // أو '*'
+    credentials: true,
+  });
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
