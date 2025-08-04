@@ -3,6 +3,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateBrandDto } from '../../common/dto/create-brand.dto';
 import { UpdateBrandDto } from '../../common/dto/update-brand.dto';
 import * as fs from 'fs';
+import { ApiFeatures } from 'src/common/utils/api-features';
 
 @Injectable()
 export class BrandsService {
@@ -12,10 +13,23 @@ export class BrandsService {
     return this.prisma.brand.create({ data: createBrandDto });
   }
 
-  async findAll() {
-    return this.prisma.brand.findMany({
-      include: { products: true },
-    });
+  async findAll(query: any) {
+    // استخدم ApiFeatures
+    const api = new ApiFeatures(this.prisma.brand, query)
+      .search([
+        'name',
+        'nameAr',
+        'nameEn',
+        'description',
+        'descriptionAr',
+        'descriptionEn',
+      ])
+      .filter(['id']) // زود لو في فلترة إضافية
+      .paginate()
+      .sort()
+      .setInclude({ products: true });
+
+    return api.execWithCount();
   }
 
   async findOne(id: number) {

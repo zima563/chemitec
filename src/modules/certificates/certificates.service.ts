@@ -3,6 +3,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateCertificateDto } from '../../common/dto/create-certificate.dto';
 import { UpdateCertificateDto } from '../../common/dto/update-certificate.dto';
 import * as fs from 'fs';
+import { ApiFeatures } from 'src/common/utils/api-features';
 
 @Injectable()
 export class CertificatesService {
@@ -12,8 +13,22 @@ export class CertificatesService {
     return this.prisma.certificate.create({ data: createCertificateDto });
   }
 
-  async findAll() {
-    return this.prisma.certificate.findMany();
+  async findAll(query: any) {
+    // استخدم ApiFeatures
+    const api = new ApiFeatures(this.prisma.certificate, query)
+      .search([
+        'name',
+        'nameAr',
+        'nameEn',
+        'description',
+        'descriptionAr',
+        'descriptionEn',
+      ])
+      .filter(['id']) // زود لو في فلترة إضافية
+      .paginate()
+      .sort();
+
+    return api.execWithCount();
   }
 
   async findOne(id: number) {

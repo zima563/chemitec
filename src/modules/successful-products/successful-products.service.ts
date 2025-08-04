@@ -20,7 +20,7 @@ export class SuccessfulProductsService {
   async create(
     createDto: CreateSuccessfulProductDto,
     imagePath?: string,
-    additionalImages?: string[]
+    additionalImages?: string[],
   ) {
     return this.prisma.successfulProduct.create({
       data: {
@@ -39,7 +39,7 @@ export class SuccessfulProductsService {
     id: number,
     updateDto: UpdateSuccessfulProductDto,
     imagePath?: string,
-    additionalImages?: string[]
+    additionalImages?: string[],
   ) {
     const old = await this.prisma.successfulProduct.findUnique({
       where: { id },
@@ -52,11 +52,13 @@ export class SuccessfulProductsService {
 
     // حذف كل الصور القديمة الإضافية لو جاي صور جديدة
     if (additionalImages && old.images.length > 0) {
-      old.images.forEach(img => {
+      old.images.forEach((img) => {
         if (img.url) deleteFileIfExists(img.url);
       });
       // امسحهم من الداتا بيز كمان
-      await this.prisma.successfulProductImage.deleteMany({ where: { successfulProductId: id } });
+      await this.prisma.successfulProductImage.deleteMany({
+        where: { successfulProductId: id },
+      });
     }
 
     return this.prisma.successfulProduct.update({
@@ -84,7 +86,7 @@ export class SuccessfulProductsService {
     if (old.image) deleteFileIfExists(old.image);
 
     // امسح كل الصور الإضافية
-    old.images.forEach(img => {
+    old.images.forEach((img) => {
       if (img.url) deleteFileIfExists(img.url);
     });
 
@@ -92,14 +94,21 @@ export class SuccessfulProductsService {
   }
 
   // FIND ALL
-  async findAll(reqQuery: any) {
-    const api = new ApiFeatures(this.prisma.successfulProduct, reqQuery)
-      .search(['title', 'description'])
-      .filter(['id']) // أضف أي حقول تحبها
+  async findAll(query: any) {
+    const api = new ApiFeatures(this.prisma.successfulProduct, query)
+      .search([
+        'title',
+        'titleAr',
+        'titleEn',
+        'description',
+        'descriptionAr',
+        'descriptionEn',
+      ])
+      .filter(['id'])
       .paginate()
       .sort()
       .setInclude({ images: true });
-  
+
     return api.execWithCount();
   }
 
@@ -112,6 +121,4 @@ export class SuccessfulProductsService {
     if (!product) throw new NotFoundException('SuccessfulProduct not found');
     return product;
   }
-
 }
-

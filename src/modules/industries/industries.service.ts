@@ -3,6 +3,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateIndustryDto } from '../../common/dto/create-industry.dto';
 import { UpdateIndustryDto } from '../../common/dto/update-industry.dto';
 import * as fs from 'fs';
+import { ApiFeatures } from 'src/common/utils/api-features';
 
 @Injectable()
 export class IndustriesService {
@@ -12,8 +13,23 @@ export class IndustriesService {
     return this.prisma.industry.create({ data: createIndustryDto });
   }
 
-  async findAll() {
-    return this.prisma.industry.findMany();
+  async findAll(query: any) {
+    // استخدم ApiFeatures
+    const api = new ApiFeatures(this.prisma.industry, query)
+      .search([
+        'name',
+        'nameAr',
+        'nameEn',
+        'description',
+        'descriptionAr',
+        'descriptionEn',
+      ])
+      .filter(['id']) // زود لو في فلترة إضافية
+      .paginate()
+      .sort()
+      .setInclude({ products: true });
+
+    return api.execWithCount();
   }
 
   async findOne(id: number) {

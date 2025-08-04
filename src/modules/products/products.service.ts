@@ -3,6 +3,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateProductDto } from '../../common/dto/create-product.dto';
 import { UpdateProductDto } from '../../common/dto/update-product.dto';
 import * as fs from 'fs';
+import { ApiFeatures } from 'src/common/utils/api-features';
 
 @Injectable()
 export class ProductsService {
@@ -78,10 +79,22 @@ export class ProductsService {
     return this.prisma.product.delete({ where: { id } });
   }
 
-  findAll() {
-    return this.prisma.product.findMany({
-      include: { brand: true, industry: true, images: true },
-    });
+  async findAll(query: any) {
+    // استخدم ApiFeatures
+    const api = new ApiFeatures(this.prisma.product, query)
+      .search([
+        'name',
+        'nameAr',
+        'nameEn',
+        'description',
+        'descriptionAr',
+        'descriptionEn',
+      ])
+      .filter(['id']) // زود لو في فلترة إضافية
+      .paginate()
+      .sort();
+
+    return api.execWithCount();
   }
 
   findOne(id: number) {

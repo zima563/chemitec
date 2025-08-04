@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   UploadedFile,
   ForbiddenException,
+  Query,
 } from '@nestjs/common';
 
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -34,6 +35,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiParam,
+  ApiQuery,
 } from '@nestjs/swagger';
 
 @ApiTags('Brands')
@@ -57,7 +59,8 @@ export class BrandsController {
       storage: diskStorage({
         destination: './uploads/brands',
         filename: (req, file, cb) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
           cb(null, uniqueSuffix + extname(file.originalname));
         },
       }),
@@ -85,8 +88,18 @@ export class BrandsController {
   @Get()
   @ApiOperation({ summary: 'Get all brands' })
   @ApiResponse({ status: 200, description: 'Array of brands' })
-  findAll() {
-    return this.brandsService.findAll();
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'pageSize', required: false, type: Number })
+  @ApiQuery({ name: 'search', required: false, type: String })
+  @ApiQuery({ name: 'sortBy', required: false, type: String })
+  @ApiQuery({
+    name: 'sortOrder',
+    required: false,
+    type: String,
+    example: 'desc',
+  })
+  findAll(@Query() query: any) {
+    return this.brandsService.findAll(query);
   }
 
   @Get(':id')
@@ -114,7 +127,8 @@ export class BrandsController {
       storage: diskStorage({
         destination: './uploads/brands',
         filename: (req, file, cb) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
           cb(null, uniqueSuffix + extname(file.originalname));
         },
       }),

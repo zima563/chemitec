@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   ForbiddenException,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -31,6 +32,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiParam,
+  ApiQuery,
 } from '@nestjs/swagger';
 
 const editFileName = (req, file, callback) => {
@@ -120,8 +122,18 @@ export class IndustriesController {
   @Get()
   @ApiOperation({ summary: 'Get all industries' })
   @ApiResponse({ status: 200, description: 'Array of industries' })
-  findAll() {
-    return this.industriesService.findAll();
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'pageSize', required: false, type: Number })
+  @ApiQuery({ name: 'search', required: false, type: String })
+  @ApiQuery({ name: 'sortBy', required: false, type: String })
+  @ApiQuery({
+    name: 'sortOrder',
+    required: false,
+    type: String,
+    example: 'desc',
+  })
+  findAll(@Query() query: any) {
+    return this.industriesService.findAll(query);
   }
 
   @Get(':id')

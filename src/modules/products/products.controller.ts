@@ -9,6 +9,7 @@ import {
   UploadedFiles,
   UseInterceptors,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -29,6 +30,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiParam,
+  ApiQuery,
 } from '@nestjs/swagger';
 
 function generateFileName(file: Express.Multer.File) {
@@ -131,8 +133,21 @@ export class ProductsController {
   @Get()
   @ApiOperation({ summary: 'Get all products' })
   @ApiResponse({ status: 200, description: 'Array of products' })
-  findAll() {
-    return this.productService.findAll();
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'pageSize', required: false, type: Number })
+  @ApiQuery({ name: 'search', required: false, type: String })
+  @ApiQuery({ name: 'sortBy', required: false, type: String })
+  @ApiQuery({
+    name: 'sortOrder',
+    required: false,
+    type: String,
+    example: 'desc',
+  })
+  @ApiQuery({ name: 'type', required: false, type: String })
+  @ApiQuery({ name: 'brandId', required: false, type: Number })
+  @ApiQuery({ name: 'industryId', required: false, type: Number })
+  findAll(@Query() query: any) {
+    return this.productService.findAll(query);
   }
 
   @Get(':id')
