@@ -1,36 +1,79 @@
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateBrandDto {
   @ApiProperty({
     type: 'string',
     maxLength: 100,
     example: 'Brand Name',
-    description: 'اسم البراند',
+    description: 'Brand name in English',
   })
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  name: string;
+  nameEn: string;
 
   @ApiProperty({
     type: 'string',
+    maxLength: 100,
+    example: 'اسم البراند',
+    description: 'اسم البراند بالعربي',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(100)
+  nameAr: string;
+
+  @ApiProperty({
+    type: 'string',
+    maxLength: 100,
+    example: 'Nom de la marque',
+    description: 'Nom de la marque en français',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(100)
+  nameFr: string;
+
+  @ApiPropertyOptional({
+    type: 'string',
     maxLength: 500,
-    required: false,
     example: 'Brand description',
-    description: 'وصف البراند',
+    description: 'Brand description in English',
   })
   @IsOptional()
   @IsString()
   @MaxLength(500)
-  description?: string;
+  descriptionEn?: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     type: 'string',
-    format: 'binary', // عشان تظهر كـ file في Swagger
-    required: false,
-    description: 'لوجو البراند (صورة)',
+    maxLength: 500,
+    example: 'وصف البراند',
+    description: 'وصف البراند بالعربي',
   })
   @IsOptional()
-  logo?: any; // خليه any عشان الـ file
+  @IsString()
+  @MaxLength(500)
+  descriptionAr?: string;
+
+  @ApiPropertyOptional({
+    type: 'string',
+    maxLength: 500,
+    example: 'Description de la marque',
+    description: 'Description de la marque en français',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  descriptionFr?: string;
+
+  @ApiPropertyOptional({
+    type: 'string',
+    format: 'binary',
+    description: 'Brand logo image',
+    required: false,
+  })
+  @IsOptional()
+  logo?: any;
 }

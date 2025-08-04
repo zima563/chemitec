@@ -4,14 +4,33 @@ import { Type } from 'class-transformer';
 
 export class CreateLandingImageDto {
   @ApiPropertyOptional({
-    description: 'النص البديل للصورة',
+    description: 'Alternative text for the image (English)',
+    example: 'Main landing image',
+  })
+  @IsOptional()
+  @IsString()
+  altEn?: string;
+
+  @ApiPropertyOptional({
+    description: 'النص البديل للصورة (عربي)',
     example: 'صورة رئيسية',
   })
   @IsOptional()
   @IsString()
-  alt?: string;
+  altAr?: string;
 
-  @ApiPropertyOptional({ description: 'ترتيب الصورة', example: 1 })
+  @ApiPropertyOptional({
+    description: "Texte alternatif de l'image (français)",
+    example: "Image principale d'accueil",
+  })
+  @IsOptional()
+  @IsString()
+  altFr?: string;
+
+  @ApiPropertyOptional({
+    description: 'ترتيب الصورة',
+    example: 1,
+  })
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
@@ -20,15 +39,35 @@ export class CreateLandingImageDto {
 
 export class UpdateLandingImageDto {
   @ApiPropertyOptional({
-    description: 'النص البديل للصورة',
+    description: 'Alternative text for the image (English)',
+    example: 'New landing image',
+  })
+  @IsOptional()
+  @IsString()
+  altEn?: string;
+
+  @ApiPropertyOptional({
+    description: 'النص البديل للصورة (عربي)',
     example: 'صورة جديدة',
   })
   @IsOptional()
   @IsString()
-  alt?: string;
+  altAr?: string;
 
-  @ApiPropertyOptional({ description: 'ترتيب الصورة', example: 2 })
+  @ApiPropertyOptional({
+    description: "Texte alternatif de l'image (français)",
+    example: "Nouvelle image d'accueil",
+  })
+  @IsOptional()
+  @IsString()
+  altFr?: string;
+
+  @ApiPropertyOptional({
+    description: 'ترتيب الصورة',
+    example: 2,
+  })
   @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   order?: number;
 }

@@ -11,4 +11,3 @@ export class UpdateCertificateDto extends PartialType(CreateCertificateDto) {
   })
   image?: any;
 }
-

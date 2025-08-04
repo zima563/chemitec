@@ -20,28 +20,73 @@ export class CreateProductDto {
     type: 'string',
     maxLength: 200,
     example: 'Premium Cement',
-    description: 'اسم المنتج',
+    description: 'Product name in English',
   })
   @IsString()
   @IsNotEmpty()
   @MaxLength(200)
-  name: string;
+  nameEn: string;
+
+  @ApiProperty({
+    type: 'string',
+    maxLength: 200,
+    example: 'أسمنت ممتاز',
+    description: 'اسم المنتج بالعربي',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(200)
+  nameAr: string;
+
+  @ApiProperty({
+    type: 'string',
+    maxLength: 200,
+    example: 'Ciment Premium',
+    description: 'Nom du produit en français',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(200)
+  nameFr: string;
 
   @ApiPropertyOptional({
     type: 'string',
     maxLength: 1000,
     example: 'High quality cement suitable for all construction works.',
-    description: 'وصف المنتج (اختياري)',
+    description: 'Product description in English (optional)',
   })
   @IsOptional()
   @IsString()
   @MaxLength(1000)
-  description?: string;
+  descriptionEn?: string;
+
+  @ApiPropertyOptional({
+    type: 'string',
+    maxLength: 1000,
+    example: 'أسمنت عالي الجودة مناسب لجميع أعمال البناء.',
+    description: 'وصف المنتج بالعربي (اختياري)',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(1000)
+  descriptionAr?: string;
+
+  @ApiPropertyOptional({
+    type: 'string',
+    maxLength: 1000,
+    example:
+      'Ciment de haute qualité adapté à tous les travaux de construction.',
+    description: 'Description du produit en français (facultatif)',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(1000)
+  descriptionFr?: string;
 
   @ApiProperty({
     type: 'number',
     example: 500,
-    description: 'سعر المنتج',
+    description: 'Product price',
   })
   @IsNumber()
   @Type(() => Number)
@@ -50,7 +95,7 @@ export class CreateProductDto {
   @ApiProperty({
     enum: ProductTypeEnum,
     example: ProductTypeEnum.BtoB,
-    description: 'نوع المنتج (BtoB أو BtoC)',
+    description: 'Product type (BtoB or BtoC)',
   })
   @IsEnum(ProductTypeEnum)
   type: ProductTypeEnum;
@@ -58,7 +103,7 @@ export class CreateProductDto {
   @ApiPropertyOptional({
     type: 'number',
     example: 1,
-    description: 'ID البراند (اختياري)',
+    description: 'Brand ID (optional)',
   })
   @IsOptional()
   @Type(() => Number)
@@ -67,7 +112,7 @@ export class CreateProductDto {
   @ApiPropertyOptional({
     type: 'number',
     example: 2,
-    description: 'ID الصناعة (اختياري)',
+    description: 'Industry ID (optional)',
   })
   @IsOptional()
   @Type(() => Number)
@@ -76,7 +121,7 @@ export class CreateProductDto {
   @ApiPropertyOptional({
     type: 'string',
     format: 'binary',
-    description: 'صورة الغلاف (Cover Image)',
+    description: 'Cover image (optional)',
     required: false,
   })
   @IsOptional()
@@ -85,7 +130,7 @@ export class CreateProductDto {
   @ApiPropertyOptional({
     type: 'array',
     items: { type: 'string', format: 'binary' },
-    description: 'صور إضافية للمنتج (يمكن رفع أكثر من صورة)',
+    description: 'Additional product images (optional, multiple files)',
     required: false,
   })
   @IsOptional()

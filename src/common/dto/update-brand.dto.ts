@@ -6,29 +6,73 @@ export class UpdateBrandDto {
     type: 'string',
     maxLength: 100,
     example: 'Brand Name',
-    description: 'اسم البراند',
+    description: 'Brand name in English',
   })
   @IsOptional()
   @IsString()
   @MaxLength(100)
-  name?: string;
+  nameEn?: string;
+
+  @ApiPropertyOptional({
+    type: 'string',
+    maxLength: 100,
+    example: 'اسم البراند',
+    description: 'اسم البراند بالعربي',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  nameAr?: string;
+
+  @ApiPropertyOptional({
+    type: 'string',
+    maxLength: 100,
+    example: 'Nom de la marque',
+    description: 'Nom de la marque en français',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  nameFr?: string;
 
   @ApiPropertyOptional({
     type: 'string',
     maxLength: 500,
     example: 'Brand description',
-    description: 'وصف البراند',
+    description: 'Brand description in English',
   })
   @IsOptional()
   @IsString()
   @MaxLength(500)
-  description?: string;
+  descriptionEn?: string;
 
   @ApiPropertyOptional({
     type: 'string',
-    format: 'binary', // دي أهم حاجة!
+    maxLength: 500,
+    example: 'وصف البراند',
+    description: 'وصف البراند بالعربي',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  descriptionAr?: string;
+
+  @ApiPropertyOptional({
+    type: 'string',
+    maxLength: 500,
+    example: 'Description de la marque',
+    description: 'Description de la marque en français',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  descriptionFr?: string;
+
+  @ApiPropertyOptional({
+    type: 'string',
+    format: 'binary',
     required: false,
-    description: 'لوجو البراند (صورة)',
+    description: 'Brand logo image (optional)',
   })
   @IsOptional()
   logo?: any;

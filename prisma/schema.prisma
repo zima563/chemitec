@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,30 +7,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ProductType {
+  BtoB
+  BtoC
+}
+
+enum Role {
+  user
+  admin
+}
+
 model User {
   id           Int      @id @default(autoincrement())
   email        String   @unique
   password     String
-  role         Role     @default(user) // لو عايز admin وغيره
+  role         Role     @default(user)
   refreshToken String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
 
 model Product {
-  id          Int            @id @default(autoincrement())
-  name        String
-  description String?
-  price       Float
-  image       String? // cover image
-  images      ProductImage[] // additional images
-  type        ProductType
-  brand       Brand?         @relation(fields: [brandId], references: [id])
-  brandId     Int?
-  industry    Industry?      @relation(fields: [industryId], references: [id])
-  industryId  Int?
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id            Int            @id @default(autoincrement())
+  nameEn        String
+  nameAr        String
+  nameFr        String
+  descriptionEn String?
+  descriptionAr String?
+  descriptionFr String?
+  price         Float
+  image         String? // cover image
+  images        ProductImage[] // additional images
+  type          ProductType
+  brand         Brand?         @relation(fields: [brandId], references: [id])
+  brandId       Int?
+  industry      Industry?      @relation(fields: [industryId], references: [id])
+  industryId    Int?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model ProductImage {
@@ -46,57 +54,72 @@ model ProductImage {
   productId Int
 }
 
-enum ProductType {
-  BtoB
-  BtoC
-}
-
 model LandingImage {
   id        Int      @id @default(autoincrement())
-  url       String // الصورة (المسار)
-  alt       String? // النص البديل
-  order     Int? // ترتيب العرض
+  url       String
+  altEn     String?
+  altAr     String?
+  altFr     String?
+  order     Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Brand {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String?
-  logo        String? // brand logo
-  products    Product[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id            Int       @id @default(autoincrement())
+  nameEn        String
+  nameAr        String
+  nameFr        String
+  descriptionEn String?
+  descriptionAr String?
+  descriptionFr String?
+  logo          String?
+  products      Product[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model Industry {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String?
-  image       String?
-  products    Product[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id            Int       @id @default(autoincrement())
+  nameEn        String
+  nameAr        String
+  nameFr        String
+  descriptionEn String?
+  descriptionAr String?
+  descriptionFr String?
+  image         String?
+  products      Product[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model Certificate {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  image       String? // صورة الشهادة
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            Int      @id @default(autoincrement())
+  nameEn        String
+  nameAr        String
+  nameFr        String
+  descriptionEn String?
+  descriptionAr String?
+  descriptionFr String?
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model TeamMember {
-  id        Int      @id @default(autoincrement())
-  name      String
-  position  String
-  bio       String?
-  image     String? // صورة العضو
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  nameEn     String
+  nameAr     String
+  nameFr     String
+  positionEn String
+  positionAr String
+  positionFr String
+  bioEn      String?
+  bioAr      String?
+  bioFr      String?
+  image      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model ContactUs {
@@ -110,13 +133,17 @@ model ContactUs {
 }
 
 model SuccessfulProduct {
-  id          Int                      @id @default(autoincrement())
-  title       String
-  description String?
-  image       String? // cover image
-  images      SuccessfulProductImage[]
-  createdAt   DateTime                 @default(now())
-  updatedAt   DateTime                 @updatedAt
+  id            Int                      @id @default(autoincrement())
+  titleEn       String
+  titleAr       String
+  titleFr       String
+  descriptionEn String?
+  descriptionAr String?
+  descriptionFr String?
+  image         String? // cover image
+  images        SuccessfulProductImage[]
+  createdAt     DateTime                 @default(now())
+  updatedAt     DateTime                 @updatedAt
 }
 
 model SuccessfulProductImage {
@@ -124,9 +151,4 @@ model SuccessfulProductImage {
   url                 String
   successfulProduct   SuccessfulProduct @relation(fields: [successfulProductId], references: [id], onDelete: Cascade)
   successfulProductId Int
-}
-
-enum Role {
-  user
-  admin
 }
