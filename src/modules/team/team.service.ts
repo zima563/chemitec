@@ -3,6 +3,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateTeamMemberDto } from '../../common/dto/create-team-member.dto';
 import { UpdateTeamMemberDto } from '../../common/dto/update-team-member.dto';
 import * as fs from 'fs';
+import { ApiFeatures } from 'src/common/utils/api-features';
 
 @Injectable()
 export class TeamService {
@@ -12,8 +13,25 @@ export class TeamService {
     return this.prisma.teamMember.create({ data: createTeamMemberDto });
   }
 
-  async findAll() {
-    return this.prisma.teamMember.findMany();
+  async findAll(query: any) {
+    const api = new ApiFeatures(this.prisma.teamMember, query)
+      .search([
+        'nameFr',
+        'nameAr',
+        'nameEn',
+        'positionEn',
+        'positionAr',
+        'positionFr',
+        'bioEn',
+        'bioAr',
+        'bioFr',
+      ])
+      .filter(['id'])
+      .paginate()
+      .sort()
+      .setInclude({ images: true });
+
+    return api.execWithCount();
   }
 
   async findOne(id: number) {
