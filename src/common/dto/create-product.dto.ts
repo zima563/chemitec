@@ -22,9 +22,11 @@ export class CreateProductDto {
     example: 'Premium Cement',
     description: 'Product name in English',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(200)
+  @IsString({ message: 'Product name (English) must be a string.' })
+  @IsNotEmpty({ message: 'Product name (English) is required.' })
+  @MaxLength(200, {
+    message: 'Product name (English) must not exceed 200 characters.',
+  })
   nameEn: string;
 
   @ApiProperty({
@@ -33,9 +35,9 @@ export class CreateProductDto {
     example: 'أسمنت ممتاز',
     description: 'اسم المنتج بالعربي',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(200)
+  @IsString({ message: 'Product name (Arabic) must be a string.' })
+  @IsNotEmpty({ message: 'اسم المنتج (بالعربي) مطلوب.' })
+  @MaxLength(200, { message: 'اسم المنتج (بالعربي) يجب ألا يزيد عن 200 حرف.' })
   nameAr: string;
 
   @ApiProperty({
@@ -44,9 +46,11 @@ export class CreateProductDto {
     example: 'Ciment Premium',
     description: 'Nom du produit en français',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(200)
+  @IsString({ message: 'Product name (French) must be a string.' })
+  @IsNotEmpty({ message: 'Nom du produit (FR) est requis.' })
+  @MaxLength(200, {
+    message: 'Nom du produit (FR) ne doit pas dépasser 200 caractères.',
+  })
   nameFr: string;
 
   @ApiPropertyOptional({
@@ -56,8 +60,10 @@ export class CreateProductDto {
     description: 'Product description in English (optional)',
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(1000)
+  @IsString({ message: 'Product description (English) must be a string.' })
+  @MaxLength(1000, {
+    message: 'Product description (English) must not exceed 1000 characters.',
+  })
   descriptionEn?: string;
 
   @ApiPropertyOptional({
@@ -67,8 +73,10 @@ export class CreateProductDto {
     description: 'وصف المنتج بالعربي (اختياري)',
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(1000)
+  @IsString({ message: 'وصف المنتج (بالعربي) لازم يكون نص.' })
+  @MaxLength(1000, {
+    message: 'وصف المنتج (بالعربي) يجب ألا يزيد عن 1000 حرف.',
+  })
   descriptionAr?: string;
 
   @ApiPropertyOptional({
@@ -79,8 +87,13 @@ export class CreateProductDto {
     description: 'Description du produit en français (facultatif)',
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(1000)
+  @IsString({
+    message: 'Description du produit (FR) doit être une chaîne de caractères.',
+  })
+  @MaxLength(1000, {
+    message:
+      'Description du produit (FR) ne doit pas dépasser 1000 caractères.',
+  })
   descriptionFr?: string;
 
   @ApiProperty({
@@ -88,7 +101,7 @@ export class CreateProductDto {
     example: 500,
     description: 'Product price',
   })
-  @IsNumber()
+  @IsNumber({}, { message: 'Product price must be a number.' })
   @Type(() => Number)
   price: number;
 
@@ -97,7 +110,9 @@ export class CreateProductDto {
     example: ProductTypeEnum.BtoB,
     description: 'Product type (BtoB or BtoC)',
   })
-  @IsEnum(ProductTypeEnum)
+  @IsEnum(ProductTypeEnum, {
+    message: 'Product type must be either BtoB or BtoC.',
+  })
   type: ProductTypeEnum;
 
   @ApiPropertyOptional({
@@ -134,6 +149,6 @@ export class CreateProductDto {
     required: false,
   })
   @IsOptional()
-  @IsArray()
-  images?: any; // لازم any أو Express.Multer.File[]
+  @IsArray({ message: 'Additional images must be an array of files.' })
+  images?: any;
 }

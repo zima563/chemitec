@@ -8,9 +8,11 @@ export class CreateSuccessfulProductDto {
     example: 'Residential Building in New Cairo',
     description: 'Title of the successful product in English',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(200)
+  @IsString({ message: 'Title (English) must be a string.' })
+  @IsNotEmpty({ message: 'Title (English) is required.' })
+  @MaxLength(200, {
+    message: 'Title (English) must not exceed 200 characters.',
+  })
   titleEn: string;
 
   @ApiProperty({
@@ -19,9 +21,9 @@ export class CreateSuccessfulProductDto {
     example: 'عمارة سكنية في التجمع',
     description: 'عنوان المنتج الناجح بالعربي',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(200)
+  @IsString({ message: 'العنوان (بالعربي) لازم يكون نص.' })
+  @IsNotEmpty({ message: 'العنوان (بالعربي) مطلوب.' })
+  @MaxLength(200, { message: 'العنوان (بالعربي) يجب ألا يزيد عن 200 حرف.' })
   titleAr: string;
 
   @ApiProperty({
@@ -30,9 +32,11 @@ export class CreateSuccessfulProductDto {
     example: 'Immeuble résidentiel au Nouveau Caire',
     description: 'Titre du produit réussi en français',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(200)
+  @IsString({ message: 'Le titre (FR) doit être une chaîne de caractères.' })
+  @IsNotEmpty({ message: 'Le titre (FR) est obligatoire.' })
+  @MaxLength(200, {
+    message: 'Le titre (FR) ne doit pas dépasser 200 caractères.',
+  })
   titleFr: string;
 
   @ApiPropertyOptional({
@@ -42,8 +46,10 @@ export class CreateSuccessfulProductDto {
     description: 'Successful product description in English (optional)',
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(1000)
+  @IsString({ message: 'Description (English) must be a string.' })
+  @MaxLength(1000, {
+    message: 'Description (English) must not exceed 1000 characters.',
+  })
   descriptionEn?: string;
 
   @ApiPropertyOptional({
@@ -53,8 +59,8 @@ export class CreateSuccessfulProductDto {
     description: 'وصف المنتج الناجح بالعربي (اختياري)',
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(1000)
+  @IsString({ message: 'الوصف (بالعربي) لازم يكون نص.' })
+  @MaxLength(1000, { message: 'الوصف (بالعربي) يجب ألا يزيد عن 1000 حرف.' })
   descriptionAr?: string;
 
   @ApiPropertyOptional({
@@ -64,8 +70,12 @@ export class CreateSuccessfulProductDto {
     description: 'Description du produit réussi en français (facultatif)',
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(1000)
+  @IsString({
+    message: 'La description (FR) doit être une chaîne de caractères.',
+  })
+  @MaxLength(1000, {
+    message: 'La description (FR) ne doit pas dépasser 1000 caractères.',
+  })
   descriptionFr?: string;
 
   @ApiPropertyOptional({

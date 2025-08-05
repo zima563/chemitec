@@ -8,9 +8,9 @@ export class CreateTeamMemberDto {
     example: 'Mohamed Ragab',
     description: 'Team member name in English',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
+  @IsString({ message: 'Name (English) must be a string.' })
+  @IsNotEmpty({ message: 'Name (English) is required.' })
+  @MaxLength(100, { message: 'Name (English) must not exceed 100 characters.' })
   nameEn: string;
 
   @ApiProperty({
@@ -19,9 +19,9 @@ export class CreateTeamMemberDto {
     example: 'محمد رجب',
     description: 'اسم عضو الفريق بالعربي',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
+  @IsString({ message: 'الاسم (بالعربي) لازم يكون نص.' })
+  @IsNotEmpty({ message: 'الاسم (بالعربي) مطلوب.' })
+  @MaxLength(100, { message: 'الاسم (بالعربي) يجب ألا يزيد عن 100 حرف.' })
   nameAr: string;
 
   @ApiProperty({
@@ -30,9 +30,11 @@ export class CreateTeamMemberDto {
     example: 'Mohamed Ragab (FR)',
     description: "Nom du membre de l'équipe en français",
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
+  @IsString({ message: 'Le nom (FR) doit être une chaîne de caractères.' })
+  @IsNotEmpty({ message: 'Le nom (FR) est obligatoire.' })
+  @MaxLength(100, {
+    message: 'Le nom (FR) ne doit pas dépasser 100 caractères.',
+  })
   nameFr: string;
 
   @ApiProperty({
@@ -41,9 +43,11 @@ export class CreateTeamMemberDto {
     example: 'Project Manager',
     description: 'Position in English',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
+  @IsString({ message: 'Position (English) must be a string.' })
+  @IsNotEmpty({ message: 'Position (English) is required.' })
+  @MaxLength(100, {
+    message: 'Position (English) must not exceed 100 characters.',
+  })
   positionEn: string;
 
   @ApiProperty({
@@ -52,9 +56,11 @@ export class CreateTeamMemberDto {
     example: 'مدير مشروع',
     description: 'المسمى الوظيفي بالعربي',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
+  @IsString({ message: 'المسمى الوظيفي (بالعربي) لازم يكون نص.' })
+  @IsNotEmpty({ message: 'المسمى الوظيفي (بالعربي) مطلوب.' })
+  @MaxLength(100, {
+    message: 'المسمى الوظيفي (بالعربي) يجب ألا يزيد عن 100 حرف.',
+  })
   positionAr: string;
 
   @ApiProperty({
@@ -63,9 +69,11 @@ export class CreateTeamMemberDto {
     example: 'Chef de projet',
     description: 'Poste en français',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
+  @IsString({ message: 'Le poste (FR) doit être une chaîne de caractères.' })
+  @IsNotEmpty({ message: 'Le poste (FR) est obligatoire.' })
+  @MaxLength(100, {
+    message: 'Le poste (FR) ne doit pas dépasser 100 caractères.',
+  })
   positionFr: string;
 
   @ApiPropertyOptional({
@@ -75,8 +83,8 @@ export class CreateTeamMemberDto {
     description: 'Team member bio in English (optional)',
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(500)
+  @IsString({ message: 'Bio (English) must be a string.' })
+  @MaxLength(500, { message: 'Bio (English) must not exceed 500 characters.' })
   bioEn?: string;
 
   @ApiPropertyOptional({
@@ -86,8 +94,8 @@ export class CreateTeamMemberDto {
     description: 'نبذة عن عضو الفريق بالعربي (اختياري)',
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(500)
+  @IsString({ message: 'النبذة (بالعربي) لازم تكون نص.' })
+  @MaxLength(500, { message: 'النبذة (بالعربي) يجب ألا تزيد عن 500 حرف.' })
   bioAr?: string;
 
   @ApiPropertyOptional({
@@ -97,8 +105,10 @@ export class CreateTeamMemberDto {
     description: "Bio du membre de l'équipe en français (facultatif)",
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(500)
+  @IsString({ message: 'La bio (FR) doit être une chaîne de caractères.' })
+  @MaxLength(500, {
+    message: 'La bio (FR) ne doit pas dépasser 500 caractères.',
+  })
   bioFr?: string;
 
   @ApiPropertyOptional({

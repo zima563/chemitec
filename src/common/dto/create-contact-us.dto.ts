@@ -11,12 +11,12 @@ export class CreateContactUsDto {
   @ApiProperty({
     type: 'string',
     maxLength: 100,
-    example: 'Mohamed Ragab',
+    example: 'Mohamed Abdelazim',
     description: 'اسم المرسل',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
+  @IsString({ message: 'Name must be a string.' })
+  @IsNotEmpty({ message: 'Sender name is required.' })
+  @MaxLength(100, { message: 'Name must not exceed 100 characters.' })
   name: string;
 
   @ApiProperty({
@@ -25,8 +25,8 @@ export class CreateContactUsDto {
     example: 'user@email.com',
     description: 'البريد الإلكتروني للمرسل',
   })
-  @IsEmail()
-  @IsNotEmpty()
+  @IsEmail({}, { message: 'Please enter a valid email address.' })
+  @IsNotEmpty({ message: 'Email is required.' })
   email: string;
 
   @ApiProperty({
@@ -35,9 +35,9 @@ export class CreateContactUsDto {
     example: 'Technical Support',
     description: 'الموضوع (Subject)',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(200)
+  @IsString({ message: 'Subject must be a string.' })
+  @IsNotEmpty({ message: 'Subject is required.' })
+  @MaxLength(200, { message: 'Subject must not exceed 200 characters.' })
   subject: string;
 
   @ApiProperty({
@@ -48,8 +48,8 @@ export class CreateContactUsDto {
     description: 'رقم الهاتف (اختياري)',
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(20)
+  @IsString({ message: 'Phone number must be a string.' })
+  @MaxLength(20, { message: 'Phone number must not exceed 20 characters.' })
   phone?: string;
 
   @ApiProperty({
@@ -58,8 +58,8 @@ export class CreateContactUsDto {
     example: 'I have an issue with my order.',
     description: 'محتوى الرسالة',
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(1000)
+  @IsString({ message: 'Message content must be a string.' })
+  @IsNotEmpty({ message: 'Message content is required.' })
+  @MaxLength(1000, { message: 'Message must not exceed 1000 characters.' })
   message: string;
 }
