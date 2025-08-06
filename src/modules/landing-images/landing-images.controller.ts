@@ -49,20 +49,7 @@ export class LandingImagesController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: 'رفع أكتر من صورة دفعة واحدة',
-    schema: {
-      type: 'object',
-      properties: {
-        images: {
-          type: 'array',
-          items: {
-            type: 'string',
-            format: 'binary',
-          },
-        },
-        alt: { type: 'string', example: 'Alt text' },
-        order: { type: 'number', example: 1 },
-      },
-    },
+    type: CreateLandingImageDto,
   })
   @ApiOperation({ summary: 'Add multiple landing images' })
   @ApiResponse({

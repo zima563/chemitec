@@ -1,8 +1,18 @@
-import { IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsArray } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
 export class CreateLandingImageDto {
+  @ApiPropertyOptional({
+    type: 'array',
+    items: { type: 'string', format: 'binary' },
+    description: 'Additional product images (optional, multiple files)',
+    required: false,
+  })
+  @IsOptional()
+  @IsArray({ message: 'Additional images must be an array of files.' })
+  images?: any;
+
   @ApiPropertyOptional({
     description: 'Alternative text for the image (English)',
     example: 'Main landing image',
