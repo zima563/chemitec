@@ -22,7 +22,7 @@ ALTER TABLE `Product` MODIFY `descriptionEn` VARCHAR(1000) NULL,
     MODIFY `descriptionFr` VARCHAR(1000) NULL;
 
 -- AlterTable
-ALTER TABLE `Successfulproduct` MODIFY `descriptionEn` VARCHAR(1000) NULL,
+ALTER TABLE `SuccessfulProduct` MODIFY `descriptionEn` VARCHAR(1000) NULL,
     MODIFY `descriptionAr` VARCHAR(1000) NULL,
     MODIFY `descriptionFr` VARCHAR(1000) NULL;
 
