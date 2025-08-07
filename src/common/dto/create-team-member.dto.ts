@@ -78,36 +78,36 @@ export class CreateTeamMemberDto {
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 200,
     example: 'Over 10 years experience in the field...',
     description: 'Team member bio in English (optional)',
   })
   @IsOptional()
   @IsString({ message: 'Bio (English) must be a string.' })
-  @MaxLength(500, { message: 'Bio (English) must not exceed 500 characters.' })
+  @MaxLength(200, { message: 'Bio (English) must not exceed 200 characters.' })
   bioEn?: string;
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 200,
     example: 'خبرة أكثر من 10 سنوات في المجال...',
     description: 'نبذة عن عضو الفريق بالعربي (اختياري)',
   })
   @IsOptional()
   @IsString({ message: 'النبذة (بالعربي) لازم تكون نص.' })
-  @MaxLength(500, { message: 'النبذة (بالعربي) يجب ألا تزيد عن 500 حرف.' })
+  @MaxLength(200, { message: 'النبذة (بالعربي) يجب ألا تزيد عن 200 حرف.' })
   bioAr?: string;
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 200,
     example: "Plus de 10 ans d'expérience dans le domaine...",
     description: "Bio du membre de l'équipe en français (facultatif)",
   })
   @IsOptional()
   @IsString({ message: 'La bio (FR) doit être une chaîne de caractères.' })
-  @MaxLength(500, {
-    message: 'La bio (FR) ne doit pas dépasser 500 caractères.',
+  @MaxLength(200, {
+    message: 'La bio (FR) ne doit pas dépasser 200 caractères.',
   })
   bioFr?: string;
 

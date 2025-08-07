@@ -43,40 +43,40 @@ export class CreateCertificateDto {
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 1000,
     example: 'Certificate description',
     description: 'Certificate description in English',
   })
   @IsOptional()
   @IsString({ message: 'English description must be a string.' })
-  @MaxLength(500, {
-    message: 'English description must not exceed 500 characters.',
+  @MaxLength(1000, {
+    message: 'English description must not exceed 1000 characters.',
   })
   descriptionEn?: string;
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 1000,
     example: 'وصف الشهادة',
     description: 'وصف الشهادة بالعربي',
   })
   @IsOptional()
   @IsString({ message: 'Arabic description must be a string.' })
-  @MaxLength(500, {
-    message: 'Arabic description must not exceed 500 characters.',
+  @MaxLength(1000, {
+    message: 'Arabic description must not exceed 1000 characters.',
   })
   descriptionAr?: string;
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 1000,
     example: 'Description du certificat',
     description: 'Description du certificat en français',
   })
   @IsOptional()
   @IsString({ message: 'French description must be a string.' })
-  @MaxLength(500, {
-    message: 'French description must not exceed 500 characters.',
+  @MaxLength(1000, {
+    message: 'French description must not exceed 1000 characters.',
   })
   descriptionFr?: string;
 
