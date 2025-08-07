@@ -28,8 +28,7 @@ export class TeamService {
       ])
       .filter(['id'])
       .paginate()
-      .sort()
-      .setInclude({ images: true });
+      .sort();
 
     return api.execWithCount();
   }
