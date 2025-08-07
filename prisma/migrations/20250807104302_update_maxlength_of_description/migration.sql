@@ -27,6 +27,6 @@ ALTER TABLE `SuccessfulProduct` MODIFY `descriptionEn` VARCHAR(1000) NULL,
     MODIFY `descriptionFr` VARCHAR(1000) NULL;
 
 -- AlterTable
-ALTER TABLE `Teammember` MODIFY `bioEn` VARCHAR(200) NULL,
+ALTER TABLE `TeamMember` MODIFY `bioEn` VARCHAR(200) NULL,
     MODIFY `bioAr` VARCHAR(200) NULL,
     MODIFY `bioFr` VARCHAR(200) NULL;
