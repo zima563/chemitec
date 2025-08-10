@@ -137,10 +137,10 @@ model SuccessfulProduct {
   titleEn       String
   titleAr       String
   titleFr       String
-  descriptionEn String?
-  descriptionAr String?
-  descriptionFr String?
-  image         String? // cover image
+  descriptionEn Json
+  descriptionAr Json
+  descriptionFr Json
+  image         String?
   images        SuccessfulProductImage[]
   createdAt     DateTime                 @default(now())
   updatedAt     DateTime                 @updatedAt
