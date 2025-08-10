@@ -32,9 +32,9 @@ model Product {
   nameEn        String
   nameAr        String
   nameFr        String
-  descriptionEn String?
-  descriptionAr String?
-  descriptionFr String?
+  descriptionEn String? @db.VarChar(1000)
+  descriptionAr String? @db.VarChar(1000)
+  descriptionFr String? @db.VarChar(1000)
   price         Float
   image         String? // cover image
   images        ProductImage[] // additional images
@@ -70,9 +70,9 @@ model Brand {
   nameEn        String
   nameAr        String
   nameFr        String
-  descriptionEn String?
-  descriptionAr String?
-  descriptionFr String?
+  descriptionEn String?  @db.VarChar(1000)
+  descriptionAr String?  @db.VarChar(1000)
+  descriptionFr String?  @db.VarChar(1000)
   logo          String?
   products      Product[]
   createdAt     DateTime  @default(now())
@@ -84,9 +84,9 @@ model Industry {
   nameEn        String
   nameAr        String
   nameFr        String
-  descriptionEn String?
-  descriptionAr String?
-  descriptionFr String?
+  descriptionEn String? @db.VarChar(1000)
+  descriptionAr String? @db.VarChar(1000)
+  descriptionFr String? @db.VarChar(1000)
   image         String?
   products      Product[]
   createdAt     DateTime  @default(now())
@@ -98,9 +98,9 @@ model Certificate {
   nameEn        String
   nameAr        String
   nameFr        String
-  descriptionEn String?
-  descriptionAr String?
-  descriptionFr String?
+  descriptionEn String? @db.VarChar(1000)
+  descriptionAr String? @db.VarChar(1000)
+  descriptionFr String? @db.VarChar(1000) 
   image         String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -114,9 +114,9 @@ model TeamMember {
   positionEn String
   positionAr String
   positionFr String
-  bioEn      String?
-  bioAr      String?
-  bioFr      String?
+  bioEn      String?  @db.VarChar(200)
+  bioAr      String?  @db.VarChar(200)
+  bioFr      String?  @db.VarChar(200)
   image      String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -126,7 +126,7 @@ model ContactUs {
   id        Int      @id @default(autoincrement())
   name      String
   email     String
-  subject   String
+  subject   String  @db.VarChar(2000)
   phone     String?
   message   String
   createdAt DateTime @default(now())
@@ -137,10 +137,17 @@ model SuccessfulProduct {
   titleEn       String
   titleAr       String
   titleFr       String
+<<<<<<< HEAD
   descriptionEn Json
   descriptionAr Json
   descriptionFr Json
   image         String?
+=======
+  descriptionEn String?  @db.VarChar(1000)
+  descriptionAr String?  @db.VarChar(1000)
+  descriptionFr String?  @db.VarChar(1000)
+  image         String? // cover image
+>>>>>>> d2ff57ac9ec04d07ca117e53256c8d58e0958c38
   images        SuccessfulProductImage[]
   createdAt     DateTime                 @default(now())
   updatedAt     DateTime                 @updatedAt

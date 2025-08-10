@@ -43,39 +43,39 @@ export class CreateBrandDto {
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 1000,
     example: 'Brand description',
     description: 'Brand description in English',
   })
   @IsOptional()
   @IsString({ message: 'English description must be a string.' })
-  @MaxLength(500, {
+  @MaxLength(1000, {
     message: 'English description must not exceed 500 characters.',
   })
   descriptionEn?: string;
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 1000,
     example: 'وصف البراند',
     description: 'وصف البراند بالعربي',
   })
   @IsOptional()
   @IsString({ message: 'Arabic description must be a string.' })
-  @MaxLength(500, {
+  @MaxLength(1000, {
     message: 'Arabic description must not exceed 500 characters.',
   })
   descriptionAr?: string;
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 1000,
     example: 'Description de la marque',
     description: 'Description de la marque en français',
   })
   @IsOptional()
   @IsString({ message: 'French description must be a string.' })
-  @MaxLength(500, {
+  @MaxLength(1000, {
     message: 'French description must not exceed 500 characters.',
   })
   descriptionFr?: string;

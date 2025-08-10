@@ -13,7 +13,7 @@ export class ContactUsService {
     });
 
     // بعد ما يخزن الرسالة، ابعت إيميل شكر
-    await this.sendThankYouEmail(contact.email, contact.name);
+    // await this.sendThankYouEmail(contact.email, contact.name);
 
     return contact;
   }

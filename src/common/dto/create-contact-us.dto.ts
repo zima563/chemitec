@@ -54,12 +54,12 @@ export class CreateContactUsDto {
 
   @ApiProperty({
     type: 'string',
-    maxLength: 1000,
+    maxLength: 2000,
     example: 'I have an issue with my order.',
     description: 'محتوى الرسالة',
   })
   @IsString({ message: 'Message content must be a string.' })
   @IsNotEmpty({ message: 'Message content is required.' })
-  @MaxLength(1000, { message: 'Message must not exceed 1000 characters.' })
+  @MaxLength(2000, { message: 'Message must not exceed 1000 characters.' })
   message: string;
 }

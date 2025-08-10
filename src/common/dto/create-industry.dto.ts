@@ -43,40 +43,40 @@ export class CreateIndustryDto {
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 1000,
     example: 'Everything related to construction field.',
     description: 'Industry description in English (optional)',
   })
   @IsOptional()
   @IsString({ message: 'Industry description (English) must be a string.' })
-  @MaxLength(500, {
-    message: 'Industry description (English) must not exceed 500 characters.',
+  @MaxLength(1000, {
+    message: 'Industry description (English) must not exceed 1000 characters.',
   })
   descriptionEn?: string;
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 1000,
     example: 'كل ما يخص مجال الإنشاءات.',
     description: 'وصف الصناعة بالعربي (اختياري)',
   })
   @IsOptional()
   @IsString({ message: 'Industry description (Arabic) must be a string.' })
-  @MaxLength(500, {
-    message: 'Industry description (Arabic) must not exceed 500 characters.',
+  @MaxLength(1000, {
+    message: 'Industry description (Arabic) must not exceed 1000 characters.',
   })
   descriptionAr?: string;
 
   @ApiPropertyOptional({
     type: 'string',
-    maxLength: 500,
+    maxLength: 1000,
     example: 'Tout ce qui concerne le domaine de la construction.',
     description: "Description de l'industrie en français (facultatif)",
   })
   @IsOptional()
   @IsString({ message: 'Industry description (French) must be a string.' })
-  @MaxLength(500, {
-    message: 'Industry description (French) must not exceed 500 characters.',
+  @MaxLength(1000, {
+    message: 'Industry description (French) must not exceed 1000 characters.',
   })
   descriptionFr?: string;
 
