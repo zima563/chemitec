@@ -7,6 +7,6 @@
 
 */
 -- AlterTable
-ALTER TABLE `SccessfulPoduct` MODIFY `descriptionEn` JSON NOT NULL,
+ALTER TABLE `SucessfulPoduct` MODIFY `descriptionEn` JSON NOT NULL,
     MODIFY `descriptionAr` JSON NOT NULL,
     MODIFY `descriptionFr` JSON NOT NULL;
